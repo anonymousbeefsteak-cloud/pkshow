@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import { apiService } from '../services/apiService';
-import { Dashboard } from './admin/Dashboard';
-import { OrderManager } from './admin/OrderManager';
-import { MenuManager } from './admin/MenuManager';
-import { Settings } from './admin/Settings';
+import { AdminDashboard } from './AdminDashboard';
+import { AdminOrderManager } from './AdminOrderManager';
+import { AdminMenuManager } from './AdminMenuManager';
+import { AdminSettings } from './AdminSettings';
 import { HomeIcon, ClipboardListIcon, MenuIcon, CogIcon, RefreshIcon } from './Icons';
 import { Order, MenuCategory, Addon, OptionsData, SalesStats } from '../types';
 
@@ -52,7 +53,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onBack }) => {
       <div className="md:hidden fixed w-full bg-slate-900 text-white z-50 p-4 flex justify-between items-center"><span className="font-bold">管理後台</span><div className="flex gap-3"><button onClick={() => setActiveTab('dashboard')} className={`text-sm ${activeTab === 'dashboard' ? 'text-indigo-400' : ''}`}>總覽</button><button onClick={() => setActiveTab('orders')} className={`text-sm ${activeTab === 'orders' ? 'text-indigo-400' : ''}`}>訂單</button><button onClick={() => setActiveTab('menu')} className={`text-sm ${activeTab === 'menu' ? 'text-indigo-400' : ''}`}>菜單</button><button onClick={onBack} className="text-sm text-slate-400">離開</button></div></div>
       <main className="flex-1 md:ml-64 p-4 md:p-8 mt-14 md:mt-0 overflow-x-hidden">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"><h2 className="text-2xl font-bold text-slate-800">{activeTab === 'dashboard' && '營運總覽'}{activeTab === 'orders' && '即時訂單'}{activeTab === 'menu' && '菜單品項管理'}{activeTab === 'settings' && '系統設定'}</h2><div className="flex gap-3"><button onClick={() => fetchData()} className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 rounded-lg shadow-sm hover:bg-slate-50 text-slate-700 transition-all active:scale-95"><RefreshIcon className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} /> <span className="hidden md:inline">重整數據</span></button></div></header>
-        <div className="animate-fade-in pb-10">{activeTab === 'dashboard' && <Dashboard stats={stats} orders={orders} />}{activeTab === 'orders' && <OrderManager orders={orders} onStatusUpdate={handleStatusUpdate} />}{activeTab === 'menu' && <MenuManager menu={menu} addons={addons} options={options} onSave={handleSaveMenu} />}{activeTab === 'settings' && <Settings isQuietHours={isQuietHours} onToggleQuiet={handleToggleQuiet} onBackup={apiService.backupData} onRestore={apiService.restoreData} onClear={apiService.clearAllData} />}</div>
+        <div className="animate-fade-in pb-10">{activeTab === 'dashboard' && <AdminDashboard stats={stats} orders={orders} />}{activeTab === 'orders' && <AdminOrderManager orders={orders} onStatusUpdate={handleStatusUpdate} />}{activeTab === 'menu' && <AdminMenuManager menu={menu} addons={addons} options={options} onSave={handleSaveMenu} />}{activeTab === 'settings' && <AdminSettings isQuietHours={isQuietHours} onToggleQuiet={handleToggleQuiet} onBackup={apiService.backupData} onRestore={apiService.restoreData} onClear={apiService.clearAllData} />}</div>
       </main>
     </div>
   );
