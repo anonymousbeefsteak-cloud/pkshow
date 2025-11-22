@@ -65,13 +65,14 @@ export const apiService = {
                 const storedItem = storedCategory?.items.find(i => i.id === item.id);
                 if (storedItem) {
                     // Preserve price, availability, AND image if edited
+                    // IMPORTANT: Fallback to 'item.image' (static) if 'storedItem.image' is missing/empty
                     return { 
                         ...item, 
                         price: storedItem.price, 
                         isAvailable: storedItem.isAvailable,
                         name: storedItem.name, // Allow name override from storage
                         description: storedItem.description, // Allow desc override from storage
-                        image: storedItem.image // Allow image override
+                        image: storedItem.image || item.image // Allow image override but fallback to static
                     };
                 }
                 return item;
