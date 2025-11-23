@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { apiService, initializeLocalStorage } from './services/apiService';
 import { TRANSLATIONS } from './constants';
@@ -91,8 +90,46 @@ const App: React.FC = () => {
         // 2. Disable Dragging (Images/Text)
         document.addEventListener('dragstart', preventDefault);
 
-        // 3. Disable Key Combinations
+        // 3. Disable Key Combinations - 修復 ESC 鍵處理
         const handleKeyDown = (e: KeyboardEvent) => {
+            // 修復 ESC 鍵處理：只關閉模態窗口，不退出全屏
+            if (e.key === 'Escape') {
+                e.preventDefault(); // 阻止瀏覽器默認行為
+                e.stopPropagation(); // 阻止事件冒泡
+                
+                console.log("ESC pressed - Closing modals only");
+                
+                // 按優先級關閉模態窗口
+                if (isCartOpen) {
+                    handleCloseCart();
+                    return;
+                }
+                if (selectedItem) {
+                    handleCloseModal();
+                    return;
+                }
+                if (isQueryModalOpen) {
+                    handleCloseQueryModal();
+                    return;
+                }
+                if (isAdminOpen) {
+                    handleCloseAdmin();
+                    return;
+                }
+                if (showGuestCountModal) {
+                    // 對於歡迎和客人數量模態窗口，我們不允許用 ESC 關閉
+                    return;
+                }
+                if (showWelcome) {
+                    // 歡迎窗口也不允許用 ESC 關閉
+                    return;
+                }
+                
+                // 如果沒有模態窗口打開，重新強制全屏
+                enterFullscreen();
+                return;
+            }
+
             // Prevent F5 and Ctrl+R (Standard Reload) and redirect to Soft Reload
             if (e.key === 'F5' || (e.ctrlKey && (e.key === 'r' || e.key === 'R'))) {
                 e.preventDefault();
@@ -122,29 +159,17 @@ const App: React.FC = () => {
                 e.preventDefault();
                 return;
             }
-
-            // Handle Escape: Close all modals and FORCE FULLSCREEN (Strict Kiosk)
-            if (e.key === 'Escape') {
-                e.preventDefault(); // Stop browser exit
-                // Close any potential open modal to return to main menu
-                setIsCartOpen(false);
-                setSelectedItem(null);
-                setEditingItem(null);
-                setIsQueryModalOpen(false);
-                setIsAdminOpen(false);
-                // Re-enforce fullscreen
-                enterFullscreen();
-                return;
-            }
         };
-        window.addEventListener('keydown', handleKeyDown);
+        
+        // Use capture phase to ensure we catch ESC before inputs/modals
+        window.addEventListener('keydown', handleKeyDown, { capture: true });
 
         return () => {
             document.removeEventListener('contextmenu', preventDefault);
             document.removeEventListener('dragstart', preventDefault);
-            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keydown', handleKeyDown, { capture: true });
         };
-    }, []); // Run once on mount
+    }, [isCartOpen, selectedItem, isQueryModalOpen, isAdminOpen, showGuestCountModal, showWelcome]); // 添加依賴項
 
     useEffect(() => { 
         // Re-fetch when admin panel closes or language changes
@@ -163,6 +188,7 @@ const App: React.FC = () => {
     const handleSelectItem = (item: MenuItem, category: MenuCategory) => { setSelectedItem({ item, category: category.title }); setEditingItem(null); };
     const handleEditItem = (cartId: string) => { const itemToEdit = cartItems.find(item => item.cartId === cartId); if (itemToEdit && itemToEdit.categoryTitle) { setSelectedItem({ item: itemToEdit.item, category: itemToEdit.categoryTitle }); setEditingItem(itemToEdit); setIsCartOpen(false); } };
     
+    // STRICT KIOSK: Handle closing Item Modal (pressing X)
     const handleCloseModal = () => { 
         setSelectedItem(null); 
         setEditingItem(null); 
@@ -225,13 +251,13 @@ const App: React.FC = () => {
     const handleNavigateToAdmin = () => { const password = prompt("請輸入管理員密碼以進入後台:", ""); if (password === "@Howardwang5172") setIsAdminOpen(true); else if (password !== null) alert("密碼錯誤"); };
     const toggleLanguage = () => { setLanguage(prev => prev === 'zh' ? 'en' : 'zh'); setCartItems([]); setIsCartOpen(false); };
 
-    // STRICT KIOSK: Force fullscreen when closing cart
+    // STRICT KIOSK: Force fullscreen when closing cart (pressing X)
     const handleCloseCart = () => {
         setIsCartOpen(false);
         enterFullscreen();
     };
 
-    // STRICT KIOSK: Handlers for other modals
+    // STRICT KIOSK: Handlers for other modals (Query, Admin)
     const handleCloseQueryModal = () => {
         setIsQueryModalOpen(false);
         enterFullscreen();
