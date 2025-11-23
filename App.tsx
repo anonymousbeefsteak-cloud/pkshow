@@ -123,7 +123,7 @@ const OrderQueryModal = ({ isOpen, onClose, t }: { isOpen: boolean; onClose: () 
 };
 
 const WelcomeModal = ({ onAgree, t }: { onAgree: () => void; t: any }) => {
-    const brandingImage = "https://anonymousbeefsteak-cloud.github.io/pktry/2.jpg";
+    const brandingImage = "https://anonymousbeefsteak-cloud.github.io/pkshow/5.jpg";
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex justify-center items-center p-4">
@@ -295,7 +295,6 @@ const App = () => {
     
     // Ref for the scrollable container to allow programmatic scrolling
     const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const printContainerRef = useRef<HTMLElement | null>(null);
     const t = TRANSLATIONS[language];
 
     // --- INITIAL CLEAN URL (REMOVE FBCLID) ---
@@ -387,8 +386,6 @@ const App = () => {
     }, [showWelcome, isAdminLoginOpen, isAdminOpen, selectedItem, isCartOpen]);
 
     useEffect(() => {
-        printContainerRef.current = document.getElementById('print-container');
-        
         // STRICT PRIVACY: Ensure legacy/temp 'recent orders' are wiped on every load.
         localStorage.removeItem('steakhouse-recent-orders');
         
@@ -635,11 +632,6 @@ const App = () => {
     const scrollToCategory = (categoryId: string) => {
         const element = document.getElementById(categoryId);
         if (element && scrollContainerRef.current) {
-            // Calculate relative position within the container
-            // We use the container's scroll position and the element's position
-            // But since element.offsetTop is relative to parent, if the parent isn't positioned, it might vary.
-            // With flex layout, usually offsetTop is reliable.
-            // We subtract a small buffer for the header visual.
             scrollContainerRef.current.scrollTo({
                 top: element.offsetTop - 20, 
                 behavior: 'smooth'
