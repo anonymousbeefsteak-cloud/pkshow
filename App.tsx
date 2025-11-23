@@ -293,6 +293,8 @@ const App = () => {
     const [isAdminOpen, setIsAdminOpen] = useState(false);
     const [isAdminLoginOpen, setIsAdminLoginOpen] = useState(false);
     
+    // Ref for the scrollable container to allow programmatic scrolling
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
     const printContainerRef = useRef<HTMLElement | null>(null);
     const t = TRANSLATIONS[language];
 
@@ -629,6 +631,22 @@ const App = () => {
         setCartItems([]); setIsCartOpen(false); 
     };
     
+    // SCROLL TO CATEGORY HELPER
+    const scrollToCategory = (categoryId: string) => {
+        const element = document.getElementById(categoryId);
+        if (element && scrollContainerRef.current) {
+            // Calculate relative position within the container
+            // We use the container's scroll position and the element's position
+            // But since element.offsetTop is relative to parent, if the parent isn't positioned, it might vary.
+            // With flex layout, usually offsetTop is reliable.
+            // We subtract a small buffer for the header visual.
+            scrollContainerRef.current.scrollTo({
+                top: element.offsetTop - 20, 
+                behavior: 'smooth'
+            });
+        }
+    };
+    
     const totalCartItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
     if (isAdminOpen) return <AdminPanel onBack={() => setIsAdminOpen(false)} />;
@@ -649,7 +667,21 @@ const App = () => {
 
           <aside className="no-print w-64 bg-white shadow-lg fixed top-0 left-0 h-full overflow-y-auto hidden lg:block z-20">
             <div className="p-6"><h1 className="text-2xl font-bold text-green-700 cursor-pointer select-none" onDoubleClick={handleNavigateToAdmin} title="雙擊進入管理後台">{t.title}</h1></div>
-            <nav className="mt-4"><ul>{menuData.map((category) => (<li key={category.title}><a href={`#${category.title}`} className="block px-6 py-3 text-slate-600 font-semibold hover:bg-slate-100 hover:text-green-700 transition-colors">{category.title}</a></li>))}</ul></nav>
+            <nav className="mt-4">
+                <ul>
+                    {menuData.map((category) => (
+                        <li key={category.title}>
+                            <a 
+                                href={`#${category.title}`} 
+                                onClick={(e) => { e.preventDefault(); scrollToCategory(category.title); }}
+                                className="block px-6 py-3 text-slate-600 font-semibold hover:bg-slate-100 hover:text-green-700 transition-colors"
+                            >
+                                {category.title}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
           </aside>
           
           <main className="flex-1 flex flex-col h-full relative lg:ml-64 overflow-hidden">
@@ -663,7 +695,7 @@ const App = () => {
             ) : isLoading ? (
               <div className="flex items-center justify-center h-full"><p className="text-slate-500">{t.loading}</p></div>
             ) : (
-              <div className="flex-1 overflow-y-auto scroll-smooth p-6 lg:p-10 pb-40">
+              <div ref={scrollContainerRef} className="flex-1 overflow-y-auto scroll-smooth p-6 lg:p-10 pb-40 relative">
                   <Menu menuData={menuData} onSelectItem={handleSelectItem} t={t} />
               </div>
             )}

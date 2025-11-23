@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MenuCategory, MenuItem } from '../types';
 import { PlusIcon } from './Icons';
@@ -8,7 +9,7 @@ interface MenuProps {
   t: any;
 }
 
-const Menu: React.FC<MenuProps> = ({ menuData, onSelectItem, t }) => {
+export const Menu: React.FC<MenuProps> = ({ menuData, onSelectItem, t }) => {
     return (
       <div className="space-y-12">
         {menuData.map((category) => (
@@ -18,15 +19,22 @@ const Menu: React.FC<MenuProps> = ({ menuData, onSelectItem, t }) => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {category.items.map((item) => {
-                const hasOtherOptions = item.customizations && (item.customizations.dessertChoice || item.customizations.multiChoice || item.customizations.singleChoiceAddon);
+                const hasOtherOptions = item.customizations.dessertChoice || item.customizations.multiChoice || item.customizations.singleChoiceAddon;
                 return (
                   <div key={item.id} className={`bg-white rounded-lg shadow-lg overflow-hidden flex flex-col transition-transform transform hover:scale-105 relative ${!item.isAvailable ? 'opacity-60 bg-slate-50 cursor-not-allowed' : ''}`}>
                     {!item.isAvailable && <div className="absolute top-4 right-4 bg-red-600 text-white text-sm font-bold px-3 py-1 rounded-full z-10 transform -rotate-12">{t.soldOut}</div>}
-                    {item.image && <img src={item.image} alt={item.name} className="w-full h-48 object-cover" />}
+                    
+                    {item.image && (
+                      <div className="h-48 w-full overflow-hidden relative z-0">
+                        <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                        {/* Add subtle gradient overlay to bottom of image if needed */}
+                      </div>
+                    )}
+
                     <div className="p-6 flex-grow flex flex-col justify-between">
                       <div>
                         <h3 className="text-xl font-semibold text-slate-900">{item.name.replace(/半全餐|半套餐/g, '套餐')}</h3>
-                        {item.weight && <p className="text-sm text-slate-500 font-medium">{item.weight}</p>}
+                        {item.weight && <p className="text-sm text-slate-500">{item.weight}</p>}
                         {item.description && <p className="text-xs text-slate-500 mt-1">{item.description}</p>}
                         <p className="text-2xl font-bold text-green-700 mt-2">${item.price}</p>
                         {item.customizations && (
@@ -49,5 +57,3 @@ const Menu: React.FC<MenuProps> = ({ menuData, onSelectItem, t }) => {
       </div>
     );
 };
-
-export default Menu;
