@@ -51,6 +51,7 @@ const App: React.FC = () => {
     };
 
     // Kiosk Reset: Forces the app back to welcome screen and reloads
+    // This is used for "Cancel" actions (X buttons) to ensure no state lingers
     const handleKioskReset = () => {
         // Close all modals
         setIsCartOpen(false);
@@ -67,13 +68,13 @@ const App: React.FC = () => {
         // Force Fullscreen
         enterFullscreen();
         
-        // Strict Reload as requested to clear state completely
+        // Strict Reload as requested to clear state completely and restart the flow
         setTimeout(() => {
              window.location.reload();
-        }, 300);
+        }, 100);
     };
 
-    // Soft Reload: Resets app state without browser reload to keep fullscreen (used for internal refreshes)
+    // Soft Reload: Resets app state without browser reload (only used for F5/Admin refresh)
     const handleSoftReload = () => {
         setCartItems([]);
         setIsCartOpen(false);
@@ -122,49 +123,38 @@ const App: React.FC = () => {
         // 3. Disable Dragging (Images/Text)
         document.addEventListener('dragstart', preventDefault);
 
-        // 4. Strict Key Handler (Capture Phase)
+        // 4. Strict Key Handler (Capture Phase) - DISABLE KEYBOARD EFFECTIVENESS
         const handleKeyDown = (e: KeyboardEvent) => {
-            // ESC Key: Close all modals, show welcome, force fullscreen, and reload
+            // ALWAYS BLOCK ESC (Do NOTHING)
+            // 不允許用 ESC 關閉視窗，也不允許重整
             if (e.key === 'Escape') {
                 e.preventDefault();
                 e.stopPropagation();
                 e.stopImmediatePropagation();
-                
-                // Blur input to hide keyboard
-                (document.activeElement as HTMLElement)?.blur();
-                
-                // Trigger Strict Reset
-                handleKioskReset();
                 return;
             }
 
-            // F5 / Ctrl+R: Soft Reload
-            if (e.key === 'F5' || (e.ctrlKey && (e.key === 'r' || e.key === 'R'))) {
-                e.preventDefault();
-                handleSoftReloadRef.current();
-                return;
-            }
-            
-            // Disable Dev Tools
+            // Block Function Keys (F1-F12), Ctrl shortcuts, Alt navigation, Meta/Win key
             if (
-                e.key === 'F12' || 
-                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
-                (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
+                e.key.startsWith('F') || 
+                e.ctrlKey || 
+                e.altKey || 
+                e.metaKey
             ) {
                 e.preventDefault();
+                e.stopPropagation();
                 return;
             }
 
-            // Disable Navigation
-            if (e.altKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+            // Make Keyboard Ineffective for Navigation/Interaction (讓鍵盤無作用)
+            // Allow typing ONLY inside Input/Textarea elements (for notes/search)
+            // Block everything else to prevent scrolling, focusing, or interacting via keyboard
+            const target = e.target as HTMLElement;
+            const isInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
+            
+            if (!isInput) {
                 e.preventDefault();
-                return;
-            }
-
-            // Disable Print
-            if (e.ctrlKey && (e.key === 'p' || e.key === 'P')) {
-                e.preventDefault();
-                return;
+                e.stopPropagation();
             }
         };
         
@@ -194,7 +184,7 @@ const App: React.FC = () => {
     const handleSelectItem = (item: MenuItem, category: MenuCategory) => { setSelectedItem({ item, category: category.title }); setEditingItem(null); };
     const handleEditItem = (cartId: string) => { const itemToEdit = cartItems.find(item => item.cartId === cartId); if (itemToEdit && itemToEdit.categoryTitle) { setSelectedItem({ item: itemToEdit.item, category: itemToEdit.categoryTitle }); setEditingItem(itemToEdit); setIsCartOpen(false); } };
     
-    // STRICT KIOSK: Any "Close" action (X button) forces a system reset
+    // STRICT KIOSK: Any "Close" action (X button) forces a system reset and reload
     const handleStrictClose = () => { 
         handleKioskReset();
     };
@@ -209,7 +199,7 @@ const App: React.FC = () => {
         if (editingItem) { setCartItems(prev => prev.map(ci => ci.cartId === editingItem.cartId ? newCartItem : ci)); } 
         else { setCartItems(prev => { const existingItem = prev.find(ci => ci.cartKey === cartKey); if (existingItem) return prev.map(ci => ci.cartKey === cartKey ? { ...ci, quantity: ci.quantity + quantity, totalPrice: ci.totalPrice + totalPrice } : ci); return [...prev, newCartItem]; }); }
         
-        // Successfully added/edited item: Close modal gracefully without reset
+        // Successfully added/edited item: Close modal gracefully WITHOUT reset
         setSelectedItem(null);
         setEditingItem(null);
         enterFullscreen();
