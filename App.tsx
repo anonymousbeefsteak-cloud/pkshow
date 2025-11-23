@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { apiService, initializeLocalStorage } from './services/apiService';
@@ -122,9 +123,17 @@ const App: React.FC = () => {
                 return;
             }
 
-            // Prevent Escape (Exit Fullscreen)
+            // Handle Escape: Close all modals and FORCE FULLSCREEN (Strict Kiosk)
             if (e.key === 'Escape') {
-                e.preventDefault();
+                e.preventDefault(); // Stop browser exit
+                // Close any potential open modal to return to main menu
+                setIsCartOpen(false);
+                setSelectedItem(null);
+                setEditingItem(null);
+                setIsQueryModalOpen(false);
+                setIsAdminOpen(false);
+                // Re-enforce fullscreen
+                enterFullscreen();
                 return;
             }
         };
@@ -189,8 +198,20 @@ const App: React.FC = () => {
     };
 
     const handleRemoveItem = (cartId: string) => setCartItems(prev => prev.filter(item => item.cartId !== cartId));
-    const handleWelcomeAgree = () => { setShowWelcome(false); setShowGuestCountModal(true); enterFullscreen(); };
-    const handleGuestCountConfirm = (count: number) => { setGuestCount(count); setShowGuestCountModal(false); };
+    
+    // STRICT KIOSK: Force fullscreen on welcome agree
+    const handleWelcomeAgree = () => { 
+        setShowWelcome(false); 
+        setShowGuestCountModal(true); 
+        enterFullscreen(); 
+    };
+
+    // STRICT KIOSK: Force fullscreen on guest count confirm
+    const handleGuestCountConfirm = (count: number) => { 
+        setGuestCount(count); 
+        setShowGuestCountModal(false);
+        enterFullscreen();
+    };
 
     const handleSubmitAndPrint = async (orderData: Partial<Order>) => {
         if (isSubmitting) return; setIsSubmitting(true);
@@ -204,9 +225,20 @@ const App: React.FC = () => {
     const handleNavigateToAdmin = () => { const password = prompt("請輸入管理員密碼以進入後台:", ""); if (password === "@Howardwang5172") setIsAdminOpen(true); else if (password !== null) alert("密碼錯誤"); };
     const toggleLanguage = () => { setLanguage(prev => prev === 'zh' ? 'en' : 'zh'); setCartItems([]); setIsCartOpen(false); };
 
+    // STRICT KIOSK: Force fullscreen when closing cart
     const handleCloseCart = () => {
         setIsCartOpen(false);
-        // Ensure we are in fullscreen when returning to menu from cart
+        enterFullscreen();
+    };
+
+    // STRICT KIOSK: Handlers for other modals
+    const handleCloseQueryModal = () => {
+        setIsQueryModalOpen(false);
+        enterFullscreen();
+    };
+
+    const handleCloseAdmin = () => {
+        setIsAdminOpen(false);
         enterFullscreen();
     };
 
@@ -221,7 +253,7 @@ const App: React.FC = () => {
     
     const totalCartItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-    if (isAdminOpen) return <AdminPanel onBack={() => setIsAdminOpen(false)} />;
+    if (isAdminOpen) return <AdminPanel onBack={handleCloseAdmin} />;
     if (showWelcome) return <WelcomeModal onAgree={handleWelcomeAgree} t={t} />;
     if (showGuestCountModal) return <GuestCountModal onConfirm={handleGuestCountConfirm} t={t} />;
 
@@ -245,7 +277,7 @@ const App: React.FC = () => {
           {!isQuietHours && (<div className="fixed bottom-6 right-6 z-30 no-print"><button onClick={() => setIsCartOpen(true)} className="bg-green-600 text-white rounded-full shadow-lg p-4 hover:bg-green-700 transition-transform transform hover:scale-110"><CartIcon className="h-8 w-8" />{totalCartItems > 0 && <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">{totalCartItems}</span>}</button></div>)}
           {selectedItem && (<ItemModal selectedItem={selectedItem} editingItem={editingItem} addons={addons} options={options} onClose={handleCloseModal} onConfirmSelection={handleConfirmSelection} t={t} />)}
           <Cart isOpen={isCartOpen} onClose={handleCloseCart} cartItems={cartItems} onUpdateQuantity={handleUpdateQuantity} onRemoveItem={handleRemoveItem} onEditItem={handleEditItem} onSubmitAndPrint={handleSubmitAndPrint} isSubmitting={isSubmitting} t={t} />
-          <OrderQueryModal isOpen={isQueryModalOpen} onClose={() => setIsQueryModalOpen(false)} t={t} />
+          <OrderQueryModal isOpen={isQueryModalOpen} onClose={handleCloseQueryModal} t={t} />
           {orderToPrint && printContainerRef.current && createPortal(<PrintableOrder order={orderToPrint} />, printContainerRef.current)}
         </div>
     );
