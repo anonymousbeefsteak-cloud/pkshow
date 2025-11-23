@@ -3,20 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    
-    <!-- SEO & Social Sharing Tags (Open Graph) -->
-    <title>無名牛排 - 今日菜單懶人包</title>
-    <meta name="description" content="怕現場排隊想太久？先來這裡試點！無名牛排線上模擬點餐系統，包含完整菜單、價格與點餐教學。" />
-    
-    <!-- Facebook / Line 預覽設定 -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="無名牛排 - 今日菜單懶人包模擬器" />
-    <meta property="og:description" content="點擊立即體驗模擬點餐！查看最新菜單、計算價格，現場點餐更快速。" />
-    <meta property="og:url" content="https://pktry.vercel.app/" />
-    <meta property="og:site_name" content="無名牛排" />
-    <!-- 請將下方的 content 換成您實際的圖片網址 (建議 1200x630px) -->
-    <meta property="og:image" content="https://anonymousbeefsteak-cloud.github.io/pktry/5.jpg" />
-
+    <title>無名牛排點餐系統</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,29 +12,7 @@
         body {
             font-family: 'Noto Sans TC', sans-serif;
             -webkit-tap-highlight-color: transparent;
-            overscroll-behavior: none; /* Prevent pull-to-refresh / bounce effects */
-            
-            /* Anti-Copy / App-like Feel: Strict Lock Down */
-            -webkit-user-select: none; /* Safari */
-            -moz-user-select: none;    /* Firefox */
-            -ms-user-select: none;     /* IE10+/Edge */
-            user-select: none;         /* Standard */
-            -webkit-touch-callout: none; /* iOS Safari: disable callout menu */
         }
-        
-        /* Re-enable text selection for inputs only */
-        input, textarea {
-            -webkit-user-select: text;
-            user-select: text;
-        }
-
-        /* Prevent image interaction */
-        img {
-            -webkit-user-drag: none;
-            user-drag: none;
-            pointer-events: none; /* Prevent right click or save on images specifically */
-        }
-
         .text-xxs {
             font-size: 0.65rem;
             line-height: 0.85rem;
@@ -75,6 +40,31 @@
                 margin: 0;
                 padding: 0;
             }
+            /* Force tight layout for printing */
+            .print-tight {
+                line-height: 1 !important;
+                font-size: 30px !important;
+            }
+            .print-tight div, .print-tight p {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
     </style>
 <script type="importmap">
@@ -89,7 +79,7 @@
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
-<body class="bg-slate-100 text-slate-800">
+<body class="bg-slate-100">
     <div id="root"></div>
     <div id="print-container"></div>
 <script type="module" src="/index.tsx"></script>
