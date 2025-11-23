@@ -83,7 +83,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/b1.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/b1.jpg'
       },
       { 
           id: 'set-8', 
@@ -155,7 +155,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/pce.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/pce.jpg'
       },
       { 
           id: 'set-14', 
