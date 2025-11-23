@@ -15,7 +15,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: '炸物選擇', options: ['脆皮炸雞', '炸魚'] } }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/2.jpg'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/2.jpg'
       },
       { 
           id: 'set-2', 
@@ -26,7 +26,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: '炸物選擇', options: ['脆皮炸雞', '炸魚'] } }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/2.jpg'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/2.jpg'
       },
       { 
           id: 'set-3', 
@@ -37,7 +37,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: '炸物選擇', options: ['脆皮炸雞', '炸魚'] } }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/2.jpg'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/2.jpg'
       },
       { 
           id: 'set-4', 
@@ -48,7 +48,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: '炸物選擇', options: ['脆皮炸雞', '炸魚'] } }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/3.jpg'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/3.jpg'
       },
       { 
           id: 'set-5', 
@@ -59,7 +59,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: '炸物選擇', options: ['脆皮炸雞', '炸魚'] } }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/3.jpg'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/3.jpg'
       },
       { 
           id: 'set-6', 
@@ -71,7 +71,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/b1.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/b1.png'
       },
       { 
           id: 'set-7', 
@@ -83,7 +83,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/b1.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/b1.png'
       },
       { 
           id: 'set-8', 
@@ -95,7 +95,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/duck.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/duck.png'
       },
       { 
           id: 'set-9', 
@@ -107,7 +107,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/fish.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/fish.png'
       },
       { 
           id: 'set-10', 
@@ -119,7 +119,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/chicken.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/chicken.png'
       },
       { 
           id: 'set-11', 
@@ -131,7 +131,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/p.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/p.png'
       },
       { 
           id: 'set-12', 
@@ -143,7 +143,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/fish2.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/fish2.png'
       },
       { 
           id: 'set-13', 
@@ -155,7 +155,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/pce.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/pce.png'
       },
       { 
           id: 'set-14', 
@@ -167,7 +167,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/pirate.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/pirate.png'
       },
       { 
           id: 'set-15', 
@@ -179,7 +179,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/pirate.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/pirate.png'
       },
       { 
           id: 'set-16', 
@@ -191,7 +191,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/pirate.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/pirate.png'
       },
     ]
   },
@@ -208,7 +208,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/combo1.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/combo1.png'
       },
       { 
           id: 'combo-2', 
@@ -220,7 +220,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: '炸物選擇', options: ['脆皮炸雞', '炸魚'] } }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/combo2.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/combo2.png'
       },
       { 
           id: 'combo-3', 
@@ -232,7 +232,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/combo3.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/combo3.png'
       },
       { 
           id: 'combo-4', 
@@ -244,7 +244,7 @@ export const MENU_DATA: MenuCategory[] = [
           description: "附:①日湯②麵包③主餐④脆薯⑤飲料", 
           customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, 
           isAvailable: true,
-          image: 'https://anonymousbeefsteak-cloud.github.io/pktry/combo4.png'
+          image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/combo4.png'
       },
     ]
   },
@@ -384,31 +384,31 @@ export const MENU_DATA_EN: MenuCategory[] = [
   {
     title: "Set Meals",
     items: [
-      { id: 'set-1', name: 'Top Blade Steak + Crispy Chicken or Fish Set', printShortName: '板雞3+4套餐', weight: '7oz', price: 299, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: 'Select Side Main', options: ['Crispy Chicken', 'Fried Fish'] } }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/2.jpg' },
-      { id: 'set-2', name: 'Top Blade Steak + Crispy Chicken or Fish Set', printShortName: '板雞6+4套餐', weight: '10oz', price: 399, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: 'Select Side Main', options: ['Crispy Chicken', 'Fried Fish'] } }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/2.jpg' },
-      { id: 'set-3', name: 'Top Blade Steak + Crispy Chicken or Fish Set', printShortName: '板雞10+4套餐', weight: '14oz', price: 499, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: 'Select Side Main', options: ['Crispy Chicken', 'Fried Fish'] } }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/2.jpg' },
-      { id: 'set-4', name: 'Ribeye Cap + Crispy Chicken or Fish Set', printShortName: '蓋雞3+4套餐', weight: '7oz', price: 299, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: 'Select Side Main', options: ['Crispy Chicken', 'Fried Fish'] } }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/3.jpg' },
-      { id: 'set-5', name: 'Ribeye Cap + Crispy Chicken or Fish Set', printShortName: '蓋雞6+4套餐', weight: '10oz', price: 399, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: 'Select Side Main', options: ['Crispy Chicken', 'Fried Fish'] } }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/3.jpg' },
-      { id: 'set-6', name: 'Top Blade Steak Set', printShortName: '板12', weight: '12oz', price: 499, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/b1.png' },
-      { id: 'set-7', name: 'Ribeye Cap Steak Set', printShortName: '蓋12', weight: '12oz', price: 499, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/b1.png' },
-      { id: 'set-8', name: 'Pan-Fried Duck Breast Set', printShortName: '鴨胸', weight: '10oz', price: 399, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/duck.png' },
-      { id: 'set-9', name: 'Pan-Fried Sea Bass Set', printShortName: '煎魚', weight: '10oz', price: 320, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/fish.png' },
-      { id: 'set-10', name: 'Pan-Fried Chicken Leg Set', printShortName: '雞腿', weight: '10oz', price: 250, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/chicken.png' },
-      { id: 'set-11', name: 'Pan-Fried Pork Chop Set', printShortName: '豬10', weight: '10oz', price: 299, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/p.png' },
-      { id: 'set-12', name: 'British Fish & Chips Set', printShortName: '炸魚', weight: '10oz', price: 250, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/fish2.png' },
-      { id: 'set-13', name: 'Japanese Pork Cutlet Set', printShortName: '日豬', weight: '10oz', price: 250, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/pce.png' },
-      { id: 'set-14', name: 'Pirate Steak Set', printShortName: '海7', weight: '7oz', price: 299, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/pirate.png' },
-      { id: 'set-15', name: 'Pirate Steak Set', printShortName: '海14', weight: '14oz', price: 399, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/pirate.png' },
-      { id: 'set-16', name: 'Pirate Steak Set', printShortName: '海21', weight: '21oz', price: 499, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/pirate.png' },
+      { id: 'set-1', name: 'Top Blade Steak + Crispy Chicken or Fish Set', printShortName: '板雞3+4套餐', weight: '7oz', price: 299, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: 'Select Side Main', options: ['Crispy Chicken', 'Fried Fish'] } }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/2.jpg' },
+      { id: 'set-2', name: 'Top Blade Steak + Crispy Chicken or Fish Set', printShortName: '板雞6+4套餐', weight: '10oz', price: 399, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: 'Select Side Main', options: ['Crispy Chicken', 'Fried Fish'] } }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/2.jpg' },
+      { id: 'set-3', name: 'Top Blade Steak + Crispy Chicken or Fish Set', printShortName: '板雞10+4套餐', weight: '14oz', price: 499, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: 'Select Side Main', options: ['Crispy Chicken', 'Fried Fish'] } }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/2.jpg' },
+      { id: 'set-4', name: 'Ribeye Cap + Crispy Chicken or Fish Set', printShortName: '蓋雞3+4套餐', weight: '7oz', price: 299, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: 'Select Side Main', options: ['Crispy Chicken', 'Fried Fish'] } }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/3.jpg' },
+      { id: 'set-5', name: 'Ribeye Cap + Crispy Chicken or Fish Set', printShortName: '蓋雞6+4套餐', weight: '10oz', price: 399, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: 'Select Side Main', options: ['Crispy Chicken', 'Fried Fish'] } }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/3.jpg' },
+      { id: 'set-6', name: 'Top Blade Steak Set', printShortName: '板12', weight: '12oz', price: 499, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/b1.png' },
+      { id: 'set-7', name: 'Ribeye Cap Steak Set', printShortName: '蓋12', weight: '12oz', price: 499, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/b1.png' },
+      { id: 'set-8', name: 'Pan-Fried Duck Breast Set', printShortName: '鴨胸', weight: '10oz', price: 399, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/duck.png' },
+      { id: 'set-9', name: 'Pan-Fried Sea Bass Set', printShortName: '煎魚', weight: '10oz', price: 320, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/fish.png' },
+      { id: 'set-10', name: 'Pan-Fried Chicken Leg Set', printShortName: '雞腿', weight: '10oz', price: 250, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/chicken.png' },
+      { id: 'set-11', name: 'Pan-Fried Pork Chop Set', printShortName: '豬10', weight: '10oz', price: 299, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/p.png' },
+      { id: 'set-12', name: 'British Fish & Chips Set', printShortName: '炸魚', weight: '10oz', price: 250, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/fish2.png' },
+      { id: 'set-13', name: 'Japanese Pork Cutlet Set', printShortName: '日豬', weight: '10oz', price: 250, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/pce.png' },
+      { id: 'set-14', name: 'Pirate Steak Set', printShortName: '海7', weight: '7oz', price: 299, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/pirate.png' },
+      { id: 'set-15', name: 'Pirate Steak Set', printShortName: '海14', weight: '14oz', price: 399, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/pirate.png' },
+      { id: 'set-16', name: 'Pirate Steak Set', printShortName: '海21', weight: '21oz', price: 499, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/pirate.png' },
     ]
   },
   {
     title: "Combo Meals",
     items: [
-      { id: 'combo-1', name: 'Pork Cutlet, Chicken & Ribeye Cap', printShortName: '日+雞+蓋組合餐', weight: '15oz', price: 529, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/combo1.png' },
-      { id: 'combo-2', name: 'Fried Fish, Chicken & Top Blade', printShortName: '魚+雞+板組合餐', weight: '15oz', price: 529, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: 'Select Side Main', options: ['Crispy Chicken', 'Fried Fish'] } }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/combo2.png' },
-      { id: 'combo-3', name: 'Sea Bass, Duck & Pork Chop', printShortName: '魚+鴨+豬組合餐', weight: '15oz', price: 529, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/combo3.png' },
-      { id: 'combo-4', name: 'Duck, Sea Bass & Ribeye Cap', printShortName: '鴨+魚+蓋組合餐', weight: '15oz', price: 599, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pktry/combo4.png' },
+      { id: 'combo-1', name: 'Pork Cutlet, Chicken & Ribeye Cap', printShortName: '日+雞+蓋組合餐', weight: '15oz', price: 529, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/combo1.png' },
+      { id: 'combo-2', name: 'Fried Fish, Chicken & Top Blade', printShortName: '魚+雞+板組合餐', weight: '15oz', price: 529, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2, componentChoice: { title: 'Select Side Main', options: ['Crispy Chicken', 'Fried Fish'] } }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/combo2.png' },
+      { id: 'combo-3', name: 'Sea Bass, Duck & Pork Chop', printShortName: '魚+鴨+豬組合餐', weight: '15oz', price: 529, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: false, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/combo3.png' },
+      { id: 'combo-4', name: 'Duck, Sea Bass & Ribeye Cap', printShortName: '鴨+魚+蓋組合餐', weight: '15oz', price: 599, description: "Includes: ①Soup ②Bread ③Main ④Fries ⑤Drink", customizations: { doneness: true, sauceChoice: true, drinkChoice: true, notes: true, saucesPerItem: 2 }, isAvailable: true, image: 'https://anonymousbeefsteak-cloud.github.io/pkshow/combo4.png' },
     ]
   },
   {
