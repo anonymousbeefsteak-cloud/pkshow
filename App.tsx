@@ -37,7 +37,7 @@ const App: React.FC = () => {
 
     const t = TRANSLATIONS[language];
 
-    // Helper to force fullscreen
+    // Helper to force fullscreen with vendor prefixes
     const enterFullscreen = () => {
         const doc = document.documentElement as any;
         if (doc.requestFullscreen) {
@@ -68,6 +68,7 @@ const App: React.FC = () => {
         enterFullscreen();
     };
 
+    // Keep ref updated for the event listener
     useEffect(() => {
         handleSoftReloadRef.current = handleSoftReload;
     });
@@ -120,6 +121,12 @@ const App: React.FC = () => {
                 e.preventDefault();
                 return;
             }
+
+            // Prevent Escape (Exit Fullscreen)
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                return;
+            }
         };
         window.addEventListener('keydown', handleKeyDown);
 
@@ -146,7 +153,13 @@ const App: React.FC = () => {
 
     const handleSelectItem = (item: MenuItem, category: MenuCategory) => { setSelectedItem({ item, category: category.title }); setEditingItem(null); };
     const handleEditItem = (cartId: string) => { const itemToEdit = cartItems.find(item => item.cartId === cartId); if (itemToEdit && itemToEdit.categoryTitle) { setSelectedItem({ item: itemToEdit.item, category: itemToEdit.categoryTitle }); setEditingItem(itemToEdit); setIsCartOpen(false); } };
-    const handleCloseModal = () => { setSelectedItem(null); setEditingItem(null); };
+    
+    const handleCloseModal = () => { 
+        setSelectedItem(null); 
+        setEditingItem(null); 
+        // Force fullscreen re-entry when closing modal to ensure Kiosk experience
+        enterFullscreen();
+    };
 
     const handleConfirmSelection = (item: MenuItem, quantity: number, selections: any, categoryTitle: string) => {
         const createCartKey = (itemData: MenuItem, selectionData: any) => [itemData.id, JSON.stringify(selectionData.donenesses), JSON.stringify(selectionData.componentChoices), JSON.stringify(selectionData.multiChoice), JSON.stringify(selectionData.sideChoices), JSON.stringify(selectionData.singleChoiceAddon), JSON.stringify(selectionData.notes), JSON.stringify((selectionData.sauces || []).map((s:any) => `${s.name}x${s.quantity}`).sort()), JSON.stringify(Object.entries(selectionData.drinks || {}).sort()), JSON.stringify((selectionData.desserts || []).map((s:any) => `${s.name}x${s.quantity}`).sort()), JSON.stringify((selectionData.pastas || []).map((s:any) => `${s.name}x${s.quantity}`).sort()), JSON.stringify((selectionData.addons || []).map((a:any) => `${a.id}x${a.quantity}`).sort())].join('|');
