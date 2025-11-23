@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { MenuItem, CartItem, OptionsData } from '../types';
 import { PlusIcon, MinusIcon, CloseIcon } from './Icons';
@@ -142,7 +143,8 @@ const ItemModal: React.FC<ItemModalProps> = ({ selectedItem, editingItem, addons
         if (custom.multiChoice && multiChoiceCount !== quantity) { setValidationError(`${custom.multiChoice.title} ${t.options.required} ${quantity} ${t.options.portion}`); return; }
 
         onConfirmSelection(item, quantity, { donenesses: selectedDonenesses, sauces: selectedSauces, drinks: selectedDrinks, desserts: selectedDesserts, pastas: selectedPastas, componentChoices: selectedComponent, sideChoices: selectedSideChoices, multiChoice: selectedMultiChoice, singleChoiceAddon: selectedSingleChoiceAddon, notes: selectedNotes, addons: selectedAddons, }, category);
-        onClose();
+        // Note: onClose() removed from here. Success closure is handled by parent update.
+        // onClose is reserved for the "Cancel/X" button which triggers Kiosk Reset.
     };
     
     const renderSimpleCounter = (label: string, count: number, onIncrement: () => void, onDecrement: () => void) => ( <div key={label} className="flex justify-between items-center bg-white p-3 rounded-md"><span className="text-sm font-medium text-slate-800">{label}</span><div className="flex items-center gap-2"><button onClick={onDecrement} className="p-1 rounded-full bg-slate-200 hover:bg-slate-300"><MinusIcon className="h-4 w-4" /></button><span className="font-semibold w-6 text-center">{count}</span><button onClick={onIncrement} className="p-1 rounded-full bg-slate-200 hover:bg-slate-300"><PlusIcon className="h-4 w-4" /></button></div></div> );
