@@ -69,7 +69,8 @@ export const apiService = {
                         name: language === 'en' ? staticItem.name : item.name, 
                         description: language === 'en' ? staticItem.description : item.description,
                         itemShortName: staticItem.itemShortName,
-                        printShortName: staticItem.printShortName
+                        printShortName: staticItem.printShortName,
+                        image: item.image || staticItem.image
                     };
                 }
                 return item;

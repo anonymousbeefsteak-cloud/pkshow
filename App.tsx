@@ -33,7 +33,43 @@ const App: React.FC = () => {
     const [isAdminOpen, setIsAdminOpen] = useState(false);
     
     const printContainerRef = useRef<HTMLElement | null>(null);
+    const handleSoftReloadRef = useRef<() => void>(() => {});
+
     const t = TRANSLATIONS[language];
+
+    // Helper to force fullscreen
+    const enterFullscreen = () => {
+        const doc = document.documentElement as any;
+        if (doc.requestFullscreen) {
+            doc.requestFullscreen().catch((err: any) => console.log('Fullscreen request failed', err));
+        } else if (doc.webkitRequestFullscreen) {
+            doc.webkitRequestFullscreen();
+        } else if (doc.msRequestFullscreen) {
+            doc.msRequestFullscreen();
+        }
+    };
+
+    // Soft Reload: Resets app state without browser reload to keep fullscreen
+    const handleSoftReload = () => {
+        setCartItems([]);
+        setIsCartOpen(false);
+        setSelectedItem(null);
+        setEditingItem(null);
+        setIsQueryModalOpen(false);
+        setIsSubmitting(false);
+        setShowWelcome(true);
+        setShowGuestCountModal(false);
+        setGuestCount(1);
+        setOrderToPrint(null);
+        setIsAdminOpen(false);
+        // We keep the language setting
+        fetchData();
+        enterFullscreen();
+    };
+
+    useEffect(() => {
+        handleSoftReloadRef.current = handleSoftReload;
+    });
 
     useEffect(() => {
         initializeLocalStorage();
@@ -42,6 +78,60 @@ const App: React.FC = () => {
         const storedCart = localStorage.getItem('steakhouse_cart');
         if (storedCart) { try { setCartItems(JSON.parse(storedCart)); } catch (e) { localStorage.removeItem('steakhouse_cart'); } }
         fetchData();
+
+        // Kiosk Mode Strict Protections
+        const preventDefault = (e: Event) => e.preventDefault();
+        
+        // 1. Disable Right Click / Context Menu
+        document.addEventListener('contextmenu', preventDefault);
+        
+        // 2. Disable Dragging (Images/Text)
+        document.addEventListener('dragstart', preventDefault);
+
+        // 3. Disable Key Combinations
+        const handleKeyDown = (e: KeyboardEvent) => {
+            // Prevent F5 and Ctrl+R (Standard Reload) and redirect to Soft Reload
+            if (e.key === 'F5' || (e.ctrlKey && (e.key === 'r' || e.key === 'R'))) {
+                e.preventDefault();
+                console.log("Soft Reload Triggered via Keyboard");
+                handleSoftReloadRef.current();
+                return;
+            }
+            
+            // Prevent Developer Tools (F12, Ctrl+Shift+I/J/C, Ctrl+U)
+            if (
+                e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
+                (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
+            ) {
+                e.preventDefault();
+                return;
+            }
+
+            // Prevent Navigation (Alt+Left, Alt+Right)
+            if (e.altKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+                e.preventDefault();
+                return;
+            }
+
+            // Prevent Print Dialog (Ctrl+P) - App handles printing internally
+            if (e.ctrlKey && (e.key === 'p' || e.key === 'P')) {
+                e.preventDefault();
+                return;
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('contextmenu', preventDefault);
+            document.removeEventListener('dragstart', preventDefault);
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []); // Run once on mount
+
+    useEffect(() => { 
+        // Re-fetch when admin panel closes or language changes
+        fetchData(); 
     }, [isAdminOpen, language]); 
 
     useEffect(() => { localStorage.setItem('steakhouse_cart', JSON.stringify(cartItems)); }, [cartItems]);
@@ -85,7 +175,7 @@ const App: React.FC = () => {
     };
 
     const handleRemoveItem = (cartId: string) => setCartItems(prev => prev.filter(item => item.cartId !== cartId));
-    const handleWelcomeAgree = () => { setShowWelcome(false); setShowGuestCountModal(true); };
+    const handleWelcomeAgree = () => { setShowWelcome(false); setShowGuestCountModal(true); enterFullscreen(); };
     const handleGuestCountConfirm = (count: number) => { setGuestCount(count); setShowGuestCountModal(false); };
 
     const handleSubmitAndPrint = async (orderData: Partial<Order>) => {
@@ -99,6 +189,12 @@ const App: React.FC = () => {
 
     const handleNavigateToAdmin = () => { const password = prompt("請輸入管理員密碼以進入後台:", ""); if (password === "@Howardwang5172") setIsAdminOpen(true); else if (password !== null) alert("密碼錯誤"); };
     const toggleLanguage = () => { setLanguage(prev => prev === 'zh' ? 'en' : 'zh'); setCartItems([]); setIsCartOpen(false); };
+
+    const handleCloseCart = () => {
+        setIsCartOpen(false);
+        // Ensure we are in fullscreen when returning to menu from cart
+        enterFullscreen();
+    };
 
     useEffect(() => {
         if (orderToPrint) {
@@ -124,7 +220,7 @@ const App: React.FC = () => {
           <main className="lg:ml-64 flex-1">
             <header className="no-print bg-white/80 backdrop-blur-sm p-4 shadow-md sticky top-0 z-20 flex justify-between items-center">
                 <div className="flex items-center gap-4"><h1 className="text-xl font-bold text-green-700 lg:hidden cursor-pointer select-none" onDoubleClick={handleNavigateToAdmin}>{t.title}</h1><button onClick={toggleLanguage} className="text-sm font-bold text-slate-600 border border-slate-300 rounded px-3 py-1 hover:bg-slate-100">{language === 'zh' ? 'English' : '中文'}</button></div>
-                <div className="flex items-center gap-3"><button onClick={() => window.location.reload()} className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors font-medium"><RefreshIcon className="h-5 w-5"/><span className="hidden sm:inline">{t.refresh}</span></button><button onClick={() => setIsQueryModalOpen(true)} className="flex items-center gap-2 px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors font-medium"><SearchIcon /><span className="hidden sm:inline">{t.searchOrder}</span></button></div>
+                <div className="flex items-center gap-3"><button onClick={handleSoftReload} className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors font-medium"><RefreshIcon className="h-5 w-5"/><span className="hidden sm:inline">{t.refresh}</span></button><button onClick={() => setIsQueryModalOpen(true)} className="flex items-center gap-2 px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors font-medium"><SearchIcon /><span className="hidden sm:inline">{t.searchOrder}</span></button></div>
             </header>
             {isQuietHours ? (
               <div className="flex flex-col items-center justify-center h-[calc(100vh-80px)] text-center p-4"><h2 className="text-3xl font-bold text-slate-700 mb-4">{t.shopClosed}</h2><p className="text-slate-500">{t.shopClosedDesc}</p></div>
@@ -134,7 +230,7 @@ const App: React.FC = () => {
           </main>
           {!isQuietHours && (<div className="fixed bottom-6 right-6 z-30 no-print"><button onClick={() => setIsCartOpen(true)} className="bg-green-600 text-white rounded-full shadow-lg p-4 hover:bg-green-700 transition-transform transform hover:scale-110"><CartIcon className="h-8 w-8" />{totalCartItems > 0 && <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">{totalCartItems}</span>}</button></div>)}
           {selectedItem && (<ItemModal selectedItem={selectedItem} editingItem={editingItem} addons={addons} options={options} onClose={handleCloseModal} onConfirmSelection={handleConfirmSelection} t={t} />)}
-          <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} cartItems={cartItems} onUpdateQuantity={handleUpdateQuantity} onRemoveItem={handleRemoveItem} onEditItem={handleEditItem} onSubmitAndPrint={handleSubmitAndPrint} isSubmitting={isSubmitting} t={t} />
+          <Cart isOpen={isCartOpen} onClose={handleCloseCart} cartItems={cartItems} onUpdateQuantity={handleUpdateQuantity} onRemoveItem={handleRemoveItem} onEditItem={handleEditItem} onSubmitAndPrint={handleSubmitAndPrint} isSubmitting={isSubmitting} t={t} />
           <OrderQueryModal isOpen={isQueryModalOpen} onClose={() => setIsQueryModalOpen(false)} t={t} />
           {orderToPrint && printContainerRef.current && createPortal(<PrintableOrder order={orderToPrint} />, printContainerRef.current)}
         </div>

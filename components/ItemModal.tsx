@@ -13,7 +13,7 @@ interface ItemModalProps {
   t: any;
 }
 
-const ItemModal: React.FC<ItemModalProps> = ({ selectedItem, editingItem, addons: allAddons, options, onClose, onConfirmSelection, t }) => {
+const ItemModal: React.FC<ItemModalProps> = ({ selectedItem, editingItem, addons, options, onClose, onConfirmSelection, t }) => {
     const { item, category } = selectedItem;
     const custom = item.customizations || {};
     const [quantity, setQuantity] = useState(1);
@@ -54,7 +54,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ selectedItem, editingItem, addons
         setSelectedDonenesses(prev => { 
             const currentCount = prev[level] || 0; 
             const newCount = Math.max(0, currentCount + change); 
-            const totalCount = Object.values({ ...prev, [level]: newCount }).reduce((sum, count) => sum + (Number(count) || 0), 0); 
+            const totalCount = Object.values({ ...prev, [level]: newCount }).reduce((sum, count) => sum + (Number(count) || 0), 0) as number; 
             if (totalCount > quantity) return prev; 
             const newObject = { ...prev, [level]: newCount }; 
             if (newCount === 0) delete newObject[level]; 
@@ -68,7 +68,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ selectedItem, editingItem, addons
             const currentCount = prev[name] || 0; 
             const newCount = Math.max(0, currentCount + change); 
             const tempState = { ...prev, [name]: newCount }; 
-            const totalCount = Object.values(tempState).reduce((sum: number, val: any) => sum + (Number(val) || 0), 0); 
+            const totalCount = Object.values(tempState).reduce((sum: number, val: any) => sum + (Number(val) || 0), 0) as number; 
             if (totalCount > limit) return prev; 
             const newObject = { ...prev, [name]: newCount }; 
             if (newCount === 0) delete newObject[name]; 
@@ -80,7 +80,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ selectedItem, editingItem, addons
         setValidationError(null); 
         setter((prev: any[]) => { 
             const itemsToConsider = group ? prev.filter(item => group.includes(item.name)) : prev; 
-            const totalCount = itemsToConsider.reduce((sum, item) => sum + item.quantity, 0); 
+            const totalCount = itemsToConsider.reduce((sum: number, item: any) => sum + item.quantity, 0); 
             const existingItem = prev.find(item => item.name === name); 
             const newQuantity = (existingItem?.quantity || 0) + change; 
             if (newQuantity > (existingItem?.quantity || 0) && totalCount >= limit) return prev; 
@@ -165,7 +165,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ selectedItem, editingItem, addons
                 {custom.multiChoice && <div className="p-4 bg-slate-100 rounded-lg"><h3 className="font-semibold text-slate-700 mb-3">{custom.multiChoice.title} <span className="text-sm font-normal text-slate-500">{getProgressLabel(multiChoiceCount, quantity)}</span></h3><div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">{multiChoiceOptions.map(choice => renderChoiceCounter( choice, selectedMultiChoice[choice.name] || 0, () => { if (choice.isAvailable) handleOptionChange(setSelectedMultiChoice, choice.name, 1, quantity); }, () => handleOptionChange(setSelectedMultiChoice, choice.name, -1, quantity) ))}</div></div>}
                 {custom.dessertChoice && <><div className="p-4 bg-slate-100 rounded-lg"><h3 className="font-semibold text-slate-700 mb-3">{t.options.dessertA} <span className="text-sm font-normal text-slate-500">{getProgressLabel(dessertACount, quantity)}</span></h3><div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">{options.dessertsA.map(dessert => renderChoiceCounter(dessert, selectedDesserts.find(s => s.name === dessert.name)?.quantity || 0, () => { if (dessert.isAvailable) handleArrayOfObjectsChange(setSelectedDesserts, dessert.name, 1, quantity, options.dessertsA.map(d=>d.name)) }, () => handleArrayOfObjectsChange(setSelectedDesserts, dessert.name, -1, quantity, options.dessertsA.map(d=>d.name)) ))}</div></div><div className="p-4 bg-slate-100 rounded-lg"><h3 className="font-semibold text-slate-700 mb-3">{t.options.dessertB} <span className="text-sm font-normal text-slate-500">{getProgressLabel(dessertBCount, quantity)}</span></h3><div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">{options.dessertsB.map(dessert => renderChoiceCounter(dessert, selectedDesserts.find(s => s.name === dessert.name)?.quantity || 0, () => { if (dessert.isAvailable) handleArrayOfObjectsChange(setSelectedDesserts, dessert.name, 1, quantity, options.dessertsB.map(d=>d.name)) }, () => handleArrayOfObjectsChange(setSelectedDesserts, dessert.name, -1, quantity, options.dessertsB.map(d=>d.name)) ))}</div></div></>}
                 {custom.pastaChoice && <><div className="p-4 bg-slate-100 rounded-lg"><h3 className="font-semibold text-slate-700 mb-3">{t.options.pastaMain} <span className="text-sm font-normal text-slate-500">{getProgressLabel(pastaACount, quantity)}</span></h3><div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">{options.pastasA.map(pasta => renderChoiceCounter(pasta, selectedPastas.find(s => s.name === pasta.name)?.quantity || 0, () => { if (pasta.isAvailable) handleArrayOfObjectsChange(setSelectedPastas, pasta.name, 1, quantity, options.pastasA.map(p=>p.name)) }, () => handleArrayOfObjectsChange(setSelectedPastas, pasta.name, -1, quantity, options.pastasA.map(p=>p.name)) ))}</div></div><div className="p-4 bg-slate-100 rounded-lg"><h3 className="font-semibold text-slate-700 mb-3">{t.options.pastaSauce} <span className="text-sm font-normal text-slate-500">{getProgressLabel(pastaBCount, quantity)}</span></h3><div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">{options.pastasB.map(pasta => renderChoiceCounter(pasta, selectedPastas.find(s => s.name === pasta.name)?.quantity || 0, () => { if (pasta.isAvailable) handleArrayOfObjectsChange(setSelectedPastas, pasta.name, 1, quantity, options.pastasB.map(p=>p.name)) }, () => handleArrayOfObjectsChange(setSelectedPastas, pasta.name, -1, quantity, options.pastasB.map(p=>p.name)) ))}</div></div></>}
-                {allAddons.filter(a => a.isAvailable).length > 0 && <div className="p-4 bg-slate-100 rounded-lg"><h3 className="font-semibold text-slate-700 mb-3">{t.options.addons}</h3><div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">{allAddons.filter(a => a.isAvailable).map(addon => renderSimpleCounter(`${addon.name} (+$${addon.price})`, selectedAddons.find(a => a.id === addon.id)?.quantity || 0, () => handleAddonChange(addon, 1), () => handleAddonChange(addon, -1)))}</div></div>}
+                {addons.filter(a => a.isAvailable).length > 0 && <div className="p-4 bg-slate-100 rounded-lg"><h3 className="font-semibold text-slate-700 mb-3">{t.options.addons}</h3><div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">{addons.filter(a => a.isAvailable).map(addon => renderSimpleCounter(`${addon.name} (+$${addon.price})`, selectedAddons.find(a => a.id === addon.id)?.quantity || 0, () => handleAddonChange(addon, 1), () => handleAddonChange(addon, -1)))}</div></div>}
                 {custom.notes && <div className="p-4 bg-slate-100 rounded-lg"><h3 className="font-semibold text-slate-700 mb-2">{t.options.notes}</h3><textarea value={selectedNotes} onChange={e => setSelectedNotes(e.target.value)} className="w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-green-500 outline-none" rows={3}></textarea></div>}
             </main>
             <footer className="p-5 border-t bg-slate-50 flex-shrink-0">
