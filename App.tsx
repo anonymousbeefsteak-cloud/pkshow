@@ -41,7 +41,7 @@ const App: React.FC = () => {
     const enterFullscreen = () => {
         const doc = document.documentElement as any;
         if (doc.requestFullscreen) {
-            doc.requestFullscreen().catch((err: any) => console.log('Fullscreen request failed', err));
+            doc.requestFullscreen().catch((err: any) => console.log('Fullscreen request failed or denied:', err));
         } else if (doc.webkitRequestFullscreen) {
             doc.webkitRequestFullscreen();
         } else if (doc.msRequestFullscreen) {
@@ -64,6 +64,7 @@ const App: React.FC = () => {
         setIsAdminOpen(false);
         // We keep the language setting
         fetchData();
+        // Force fullscreen re-entry attempt on reload
         enterFullscreen();
     };
 
@@ -212,12 +213,12 @@ const App: React.FC = () => {
     if (showGuestCountModal) return <GuestCountModal onConfirm={handleGuestCountConfirm} t={t} />;
 
     return (
-        <div className="flex min-h-screen">
-          <aside className="no-print w-64 bg-white shadow-lg fixed top-0 left-0 h-full overflow-y-auto hidden lg:block no-scrollbar">
+        <div className="flex min-h-screen h-screen overflow-hidden">
+          <aside className="no-print w-64 bg-white shadow-lg fixed top-0 left-0 h-full overflow-y-auto hidden lg:block no-scrollbar z-10">
             <div className="p-6"><h1 className="text-2xl font-bold text-green-700 cursor-pointer select-none" onDoubleClick={handleNavigateToAdmin} title="雙擊進入管理後台">{t.title}</h1></div>
             <nav className="mt-4"><ul>{menuData.map((category) => (<li key={category.title}><a href={`#${category.title}`} className="block px-6 py-3 text-slate-600 font-semibold hover:bg-slate-100 hover:text-green-700 transition-colors">{category.title}</a></li>))}</ul></nav>
           </aside>
-          <main className="lg:ml-64 flex-1">
+          <main className="lg:ml-64 flex-1 h-full overflow-y-auto bg-slate-100 no-scrollbar">
             <header className="no-print bg-white/80 backdrop-blur-sm p-4 shadow-md sticky top-0 z-20 flex justify-between items-center">
                 <div className="flex items-center gap-4"><h1 className="text-xl font-bold text-green-700 lg:hidden cursor-pointer select-none" onDoubleClick={handleNavigateToAdmin}>{t.title}</h1><button onClick={toggleLanguage} className="text-sm font-bold text-slate-600 border border-slate-300 rounded px-3 py-1 hover:bg-slate-100">{language === 'zh' ? 'English' : '中文'}</button></div>
                 <div className="flex items-center gap-3"><button onClick={handleSoftReload} className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors font-medium"><RefreshIcon className="h-5 w-5"/><span className="hidden sm:inline">{t.refresh}</span></button><button onClick={() => setIsQueryModalOpen(true)} className="flex items-center gap-2 px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors font-medium"><SearchIcon /><span className="hidden sm:inline">{t.searchOrder}</span></button></div>

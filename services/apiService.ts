@@ -1,3 +1,4 @@
+
 import { LS_KEYS, MENU_DATA, ADDONS, SAUCE_CHOICES, DESSERT_CHOICES_A, DESSERT_CHOICES_B, PASTA_CHOICES_A, PASTA_CHOICES_B, COLD_NOODLE_CHOICES, SIMPLE_MEAL_CHOICES, MENU_DATA_EN, ADDONS_EN, SAUCE_CHOICES_EN, DESSERT_CHOICES_A_EN, DESSERT_CHOICES_B_EN, PASTA_CHOICES_A_EN, PASTA_CHOICES_B_EN, COLD_NOODLE_CHOICES_EN, SIMPLE_MEAL_CHOICES_EN } from '../constants';
 import { MenuItem, MenuCategory, OptionsData, Order, SalesStats, DailySalesData, MonthlySalesData } from '../types';
 
@@ -62,6 +63,10 @@ export const apiService = {
             items: cat.items.map(item => {
                 const staticItem = staticMenu.flatMap(c => c.items).find(i => i.id === item.id);
                 if (staticItem) {
+                    // Check if stored image is using the old relative path format or is missing
+                    const currentImage = item.image;
+                    const useStaticImage = !currentImage || currentImage.startsWith('images/');
+
                     return {
                         ...item, 
                         weight: staticItem.weight, 
@@ -70,7 +75,7 @@ export const apiService = {
                         description: language === 'en' ? staticItem.description : item.description,
                         itemShortName: staticItem.itemShortName,
                         printShortName: staticItem.printShortName,
-                        image: item.image || staticItem.image
+                        image: useStaticImage ? staticItem.image : currentImage
                     };
                 }
                 return item;

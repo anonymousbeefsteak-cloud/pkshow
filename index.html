@@ -9,15 +9,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Prevent body scroll, rely on internal containers */
+            overscroll-behavior: none; /* Prevent bounce/pull-to-refresh */
+            touch-action: manipulation; /* Disable double-tap zoom */
+        }
         body {
             font-family: 'Noto Sans TC', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            
+            /* Strict Kiosk UI Protections */
             -webkit-user-select: none; /* Safari */
             -ms-user-select: none; /* IE 10 and IE 11 */
             user-select: none; /* Standard syntax */
             -webkit-touch-callout: none; /* iOS Safari */
             -webkit-user-drag: none; /* Safari, Chrome */
             user-drag: none;
+            
+            background-color: #f1f5f9; /* bg-slate-100 */
         }
         .text-xxs {
             font-size: 0.65rem;
@@ -36,6 +49,8 @@
                 padding: 0;
                 background-color: white;
                 width: 58mm;
+                height: auto;
+                overflow: visible;
             }
             #print-container {
                 display: block !important;
@@ -85,8 +100,8 @@
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
-<body class="bg-slate-100">
-    <div id="root"></div>
+<body>
+    <div id="root" class="h-full w-full"></div>
     <div id="print-container"></div>
 <script type="module" src="/index.tsx"></script>
 </body>
