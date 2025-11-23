@@ -50,7 +50,30 @@ const App: React.FC = () => {
         }
     };
 
-    // Soft Reload: Resets app state without browser reload to keep fullscreen
+    // Kiosk Reset: Forces the app back to welcome screen and reloads
+    const handleKioskReset = () => {
+        // Close all modals
+        setIsCartOpen(false);
+        setSelectedItem(null);
+        setEditingItem(null);
+        setIsQueryModalOpen(false);
+        setIsAdminOpen(false);
+        setShowGuestCountModal(false);
+        
+        // Show Welcome Screen
+        setShowWelcome(true);
+        setGuestCount(1);
+        
+        // Force Fullscreen
+        enterFullscreen();
+        
+        // Strict Reload as requested to clear state completely
+        setTimeout(() => {
+             window.location.reload();
+        }, 300);
+    };
+
+    // Soft Reload: Resets app state without browser reload to keep fullscreen (used for internal refreshes)
     const handleSoftReload = () => {
         setCartItems([]);
         setIsCartOpen(false);
@@ -63,9 +86,7 @@ const App: React.FC = () => {
         setGuestCount(1);
         setOrderToPrint(null);
         setIsAdminOpen(false);
-        // We keep the language setting
         fetchData();
-        // Force fullscreen re-entry attempt on reload
         enterFullscreen();
     };
 
@@ -82,49 +103,49 @@ const App: React.FC = () => {
         if (storedCart) { try { setCartItems(JSON.parse(storedCart)); } catch (e) { localStorage.removeItem('steakhouse_cart'); } }
         fetchData();
 
-        // Kiosk Mode Strict Protections
+        // === Kiosk Ultimate Escape Prevention ===
+
+        // 1. Force Fullscreen Loop (Check every 500ms)
+        const enforceFullscreen = () => {
+            const doc = document as any;
+            if (!doc.fullscreenElement && !doc.webkitFullscreenElement) {
+                enterFullscreen();
+            }
+        };
+        const fsInterval = setInterval(enforceFullscreen, 500);
+
         const preventDefault = (e: Event) => e.preventDefault();
         
-        // 1. Disable Right Click / Context Menu
+        // 2. Disable Right Click / Context Menu
         document.addEventListener('contextmenu', preventDefault);
         
-        // 2. Disable Dragging (Images/Text)
+        // 3. Disable Dragging (Images/Text)
         document.addEventListener('dragstart', preventDefault);
 
-        // 3. Disable Key Combinations
+        // 4. Strict Key Handler (Capture Phase)
         const handleKeyDown = (e: KeyboardEvent) => {
-            // Handle Escape: Close all modals and FORCE FULLSCREEN (Strict Kiosk)
-            // Use highest priority check with stopImmediatePropagation
+            // ESC Key: Close all modals, show welcome, force fullscreen, and reload
             if (e.key === 'Escape') {
-                e.preventDefault(); // Stop browser exit or other default actions
-                e.stopPropagation(); // Stop event bubbling
-                e.stopImmediatePropagation(); // Stop other listeners
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
                 
-                // Blur any active input to hide virtual keyboard immediately
+                // Blur input to hide keyboard
                 (document.activeElement as HTMLElement)?.blur();
                 
-                // Close ANY open modal or view to return to main menu
-                setIsCartOpen(false);
-                setSelectedItem(null);
-                setEditingItem(null);
-                setIsQueryModalOpen(false);
-                setIsAdminOpen(false);
-                setShowGuestCountModal(false);
-                
-                // Re-enforce fullscreen immediately
-                enterFullscreen();
+                // Trigger Strict Reset
+                handleKioskReset();
                 return;
             }
 
-            // Prevent F5 and Ctrl+R (Standard Reload) and redirect to Soft Reload
+            // F5 / Ctrl+R: Soft Reload
             if (e.key === 'F5' || (e.ctrlKey && (e.key === 'r' || e.key === 'R'))) {
                 e.preventDefault();
-                console.log("Soft Reload Triggered via Keyboard");
                 handleSoftReloadRef.current();
                 return;
             }
             
-            // Prevent Developer Tools (F12, Ctrl+Shift+I/J/C, Ctrl+U)
+            // Disable Dev Tools
             if (
                 e.key === 'F12' || 
                 (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
@@ -134,23 +155,23 @@ const App: React.FC = () => {
                 return;
             }
 
-            // Prevent Navigation (Alt+Left, Alt+Right)
+            // Disable Navigation
             if (e.altKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
                 e.preventDefault();
                 return;
             }
 
-            // Prevent Print Dialog (Ctrl+P) - App handles printing internally
+            // Disable Print
             if (e.ctrlKey && (e.key === 'p' || e.key === 'P')) {
                 e.preventDefault();
                 return;
             }
         };
         
-        // Use capture phase to ensure we catch ESC before inputs/modals
         window.addEventListener('keydown', handleKeyDown, { capture: true });
 
         return () => {
+            clearInterval(fsInterval);
             document.removeEventListener('contextmenu', preventDefault);
             document.removeEventListener('dragstart', preventDefault);
             window.removeEventListener('keydown', handleKeyDown, { capture: true });
@@ -158,7 +179,6 @@ const App: React.FC = () => {
     }, []); // Run once on mount
 
     useEffect(() => { 
-        // Re-fetch when admin panel closes or language changes
         fetchData(); 
     }, [isAdminOpen, language]); 
 
@@ -174,12 +194,9 @@ const App: React.FC = () => {
     const handleSelectItem = (item: MenuItem, category: MenuCategory) => { setSelectedItem({ item, category: category.title }); setEditingItem(null); };
     const handleEditItem = (cartId: string) => { const itemToEdit = cartItems.find(item => item.cartId === cartId); if (itemToEdit && itemToEdit.categoryTitle) { setSelectedItem({ item: itemToEdit.item, category: itemToEdit.categoryTitle }); setEditingItem(itemToEdit); setIsCartOpen(false); } };
     
-    // STRICT KIOSK: Handle closing Item Modal (pressing X)
-    const handleCloseModal = () => { 
-        setSelectedItem(null); 
-        setEditingItem(null); 
-        // Force fullscreen re-entry when closing modal to ensure Kiosk experience
-        enterFullscreen();
+    // STRICT KIOSK: Any "Close" action (X button) forces a system reset
+    const handleStrictClose = () => { 
+        handleKioskReset();
     };
 
     const handleConfirmSelection = (item: MenuItem, quantity: number, selections: any, categoryTitle: string) => {
@@ -191,7 +208,11 @@ const App: React.FC = () => {
         
         if (editingItem) { setCartItems(prev => prev.map(ci => ci.cartId === editingItem.cartId ? newCartItem : ci)); } 
         else { setCartItems(prev => { const existingItem = prev.find(ci => ci.cartKey === cartKey); if (existingItem) return prev.map(ci => ci.cartKey === cartKey ? { ...ci, quantity: ci.quantity + quantity, totalPrice: ci.totalPrice + totalPrice } : ci); return [...prev, newCartItem]; }); }
-        handleCloseModal();
+        
+        // Successfully added/edited item: Close modal gracefully without reset
+        setSelectedItem(null);
+        setEditingItem(null);
+        enterFullscreen();
     };
 
     const handleUpdateQuantity = (cartId: string, newQuantity: number) => {
@@ -211,14 +232,12 @@ const App: React.FC = () => {
 
     const handleRemoveItem = (cartId: string) => setCartItems(prev => prev.filter(item => item.cartId !== cartId));
     
-    // STRICT KIOSK: Force fullscreen on welcome agree
     const handleWelcomeAgree = () => { 
         setShowWelcome(false); 
         setShowGuestCountModal(true); 
         enterFullscreen(); 
     };
 
-    // STRICT KIOSK: Force fullscreen on guest count confirm
     const handleGuestCountConfirm = (count: number) => { 
         setGuestCount(count); 
         setShowGuestCountModal(false);
@@ -237,23 +256,6 @@ const App: React.FC = () => {
     const handleNavigateToAdmin = () => { const password = prompt("請輸入管理員密碼以進入後台:", ""); if (password === "@Howardwang5172") setIsAdminOpen(true); else if (password !== null) alert("密碼錯誤"); };
     const toggleLanguage = () => { setLanguage(prev => prev === 'zh' ? 'en' : 'zh'); setCartItems([]); setIsCartOpen(false); };
 
-    // STRICT KIOSK: Force fullscreen when closing cart (pressing X)
-    const handleCloseCart = () => {
-        setIsCartOpen(false);
-        enterFullscreen();
-    };
-
-    // STRICT KIOSK: Handlers for other modals (Query, Admin)
-    const handleCloseQueryModal = () => {
-        setIsQueryModalOpen(false);
-        enterFullscreen();
-    };
-
-    const handleCloseAdmin = () => {
-        setIsAdminOpen(false);
-        enterFullscreen();
-    };
-
     useEffect(() => {
         if (orderToPrint) {
           const handleAfterPrint = () => { setOrderToPrint(null); setCartItems([]); setIsCartOpen(false); setShowWelcome(true); setGuestCount(1); setIsSubmitting(false); window.removeEventListener('afterprint', handleAfterPrint); };
@@ -265,7 +267,7 @@ const App: React.FC = () => {
     
     const totalCartItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-    if (isAdminOpen) return <AdminPanel onBack={handleCloseAdmin} />;
+    if (isAdminOpen) return <AdminPanel onBack={handleStrictClose} />;
     if (showWelcome) return <WelcomeModal onAgree={handleWelcomeAgree} t={t} />;
     if (showGuestCountModal) return <GuestCountModal onConfirm={handleGuestCountConfirm} t={t} />;
 
@@ -287,9 +289,9 @@ const App: React.FC = () => {
             ) : (<div className="p-6 lg:p-10"><Menu menuData={menuData} onSelectItem={handleSelectItem} t={t} /></div>)}
           </main>
           {!isQuietHours && (<div className="fixed bottom-6 right-6 z-30 no-print"><button onClick={() => setIsCartOpen(true)} className="bg-green-600 text-white rounded-full shadow-lg p-4 hover:bg-green-700 transition-transform transform hover:scale-110"><CartIcon className="h-8 w-8" />{totalCartItems > 0 && <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">{totalCartItems}</span>}</button></div>)}
-          {selectedItem && (<ItemModal selectedItem={selectedItem} editingItem={editingItem} addons={addons} options={options} onClose={handleCloseModal} onConfirmSelection={handleConfirmSelection} t={t} />)}
-          <Cart isOpen={isCartOpen} onClose={handleCloseCart} cartItems={cartItems} onUpdateQuantity={handleUpdateQuantity} onRemoveItem={handleRemoveItem} onEditItem={handleEditItem} onSubmitAndPrint={handleSubmitAndPrint} isSubmitting={isSubmitting} t={t} />
-          <OrderQueryModal isOpen={isQueryModalOpen} onClose={handleCloseQueryModal} t={t} />
+          {selectedItem && (<ItemModal selectedItem={selectedItem} editingItem={editingItem} addons={addons} options={options} onClose={handleStrictClose} onConfirmSelection={handleConfirmSelection} t={t} />)}
+          <Cart isOpen={isCartOpen} onClose={handleStrictClose} cartItems={cartItems} onUpdateQuantity={handleUpdateQuantity} onRemoveItem={handleRemoveItem} onEditItem={handleEditItem} onSubmitAndPrint={handleSubmitAndPrint} isSubmitting={isSubmitting} t={t} />
+          <OrderQueryModal isOpen={isQueryModalOpen} onClose={handleStrictClose} t={t} />
           {orderToPrint && printContainerRef.current && createPortal(<PrintableOrder order={orderToPrint} />, printContainerRef.current)}
         </div>
     );
